@@ -149,11 +149,11 @@ h2 { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 4.5vw
 .diff .add b { color: var(--violet); }
 .diff .del span { text-decoration: line-through; text-decoration-color: var(--coral); }
 @media (max-width: 760px) { .upgrade { grid-template-columns: 1fr; } }
-.gantt { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1rem 1.1rem 1.1rem; }
+.gantt { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1rem 1.1rem 1.1rem; }
 .gantt .hint { color: var(--muted); font-size: 0.85rem; margin: 0 0 0.75rem; }
 .g-row { display: grid; grid-template-columns: 5rem 1fr; gap: 0.75rem; align-items: center; padding: 0.35rem 0; }
 .g-row b { font-weight: 600; font-size: 0.9rem; }
-.g-track { position: relative; height: 26px; border-radius: 6px; background: repeating-linear-gradient(90deg, transparent 0 calc(12.5% - 1px), var(--line) calc(12.5% - 1px) 12.5%); }
+.g-track { position: relative; height: 26px; border-radius: 6px; background: repeating-linear-gradient(90deg, transparent 0 calc(10% - 1px), var(--line) calc(10% - 1px) 10%); }
 .g-bar { position: absolute; top: 3px; bottom: 3px; border-radius: 5px; background: var(--violet); cursor: grab; touch-action: none; }
 .g-bar.alt { background: var(--coral); }
 .g-bar:active { cursor: grabbing; }
@@ -187,12 +187,10 @@ h2 { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 4.5vw
 }
 .btn[data-url]:hover::after, .btn[data-url]:focus-visible::after { opacity: 1; transform: translate(-50%, 0); }
 @media (hover: none) {
-  .links { row-gap: 2.6rem; padding-bottom: 1.8rem; }
-  .btn[data-url]::after { opacity: 1; transform: translate(-50%, 0); background: transparent; color: var(--muted); padding: 0; top: calc(100% + 6px); }
+  .btn[data-url]::after { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .btn[data-url]::after { transition: none; } }
 .safe-note { display: none; margin: 1.25rem 0 0; padding: 0.75rem 1rem; border-radius: 10px; background: var(--violet-soft); font-size: 0.95rem; max-width: 46ch; }
-@media (hover: none) { .safe-note { display: block; } }
 footer { padding: 2rem 0 3rem; color: var(--muted); font-size: 0.9rem; }
 
 @media (max-width: 760px) {
@@ -206,6 +204,31 @@ footer { padding: 2rem 0 3rem; color: var(--muted); font-size: 0.9rem; }
   .js .reveal, .js .g-bar { opacity: 1 !important; transform: none !important; transition: none !important; }
   html { scroll-behavior: auto; }
 }
+
+/* Build checklist + AI flow */
+.review, .flow { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.review .file, .flow .file { padding: 0.7rem 1.1rem; border-bottom: 1px solid var(--line); color: var(--muted); font-family: var(--mono); font-size: 0.85rem; }
+.review ul, .flow ol { list-style: none; margin: 0; padding: 0; }
+.review li { display: grid; grid-template-columns: 1.6rem 1fr; gap: 0.75rem; padding: 1rem 1.1rem; border-top: 1px solid var(--line); }
+.review li:first-child { border-top: 0; }
+.review .box { width: 1.3rem; height: 1.3rem; border-radius: 5px; background: var(--violet); color: #fff; display: grid; place-items: center; font-size: 0.85rem; font-weight: 700; margin-top: 0.2rem; }
+.review li:nth-child(2) .box { background: var(--coral); }
+.review li:nth-child(3) .box { background: var(--ink); color: var(--bg); }
+.review b { font-family: var(--display); font-weight: 600; font-size: 1.15rem; display: block; }
+.review span.q { color: var(--muted); font-size: 0.95rem; }
+.flow li { display: grid; grid-template-columns: 4.5rem 1fr; gap: 1rem; padding: 0.85rem 1.1rem; border-top: 1px solid var(--line); align-items: baseline; }
+.flow li:first-child { border-top: 0; }
+.flow code { font-family: var(--mono); font-size: 0.95rem; color: var(--violet); }
+.flow li.ai code { color: var(--coral); }
+.flow li.human { background: color-mix(in srgb, var(--violet) 12%, transparent); }
+.flow li span { font-size: 0.98rem; }
+.principles p { margin: 0 0 1.1rem; max-width: 52ch; }
+.principles p b { font-family: var(--display); font-weight: 600; }
+.g-links { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.g-links path { fill: none; stroke: var(--muted); stroke-width: 2; }
+.g-links .head-tip { fill: var(--muted); stroke: none; }
+.js .gantt:not(.in) .g-links { opacity: 0; }
+.g-links { transition: opacity 0.4s 0.6s; }
 </style>
 </head>
 <body>
@@ -214,6 +237,7 @@ footer { padding: 2rem 0 3rem; color: var(--muted); font-size: 0.9rem; }
     <a class="mark" href="#top">Kyra Antonio</a>
     <ul>
       <li><a href="#history">History</a></li>
+      <li><a href="#approach">Approach</a></li>
       <li><a href="#stack">Stack</a></li>
       <li><a href="#side-projects">Projects</a></li>
       <li><a href="#strengths">Strengths</a></li>
@@ -249,7 +273,7 @@ footer { padding: 2rem 0 3rem; color: var(--muted); font-size: 0.9rem; }
         <h3>Senior Full Stack Developer<span class="head">HEAD</span></h3>
         <p class="where">Commit Works (via Hammerjack)</p>
         <p class="when">Feb 2023 to present</p>
-        <p class="body">Building across the whole stack while bringing years of development and leadership experience back into hands-on work. I brought LLMs into our development lifecycle, using GitHub Spec Kit as the template for a spec-driven workflow where Claude Haiku 4.5 handles coding and bug fixes, and our team reviews every line it writes.</p>
+        <p class="body">Building across the whole stack while bringing years of development and leadership experience back into hands-on work. I brought LLMs into our development lifecycle, using GitHub Spec Kit as the template for a spec-driven workflow where Claude handles coding and bug fixes, and our team reviews every line it writes.</p>
       </article>
 
       <article class="commit">
@@ -301,14 +325,18 @@ footer { padding: 2rem 0 3rem; color: var(--muted); font-size: 0.9rem; }
         <p>One of the biggest things I've done at work doesn't fit in a screenshot: moving our tech stacks onto the latest versions.</p>
         <p>At both Giant International and Commit Works, I was part of converting our systems from .NET Framework 4 to .NET 6, bringing them onto a modern, supported platform.</p>
         <p>On the front end, I've taken Angular apps from version 12 all the way to 20 and beyond.</p>
+        <p>Most recently, I converted a legacy Ext JS application to Angular, using Claude and GitHub Spec Kit in a spec-driven workflow where our team reviewed every line.</p>
       </div>
-      <div class="diff" aria-label="Upgrades from .NET Framework 4 to .NET 6, and Angular 12 to 20 and up">
+      <div class="diff" aria-label="Upgrades from .NET Framework 4 to .NET 6, Angular 12 to 20 and up, and Ext JS to Angular">
         <div class="file">back end</div>
         <div class="l del"><b>-</b><span>.NET Framework 4</span></div>
         <div class="l add"><b>+</b><span>.NET 6</span></div>
         <div class="file" style="border-top:1px solid var(--line)">front end</div>
         <div class="l del"><b>-</b><span>Angular 12</span></div>
         <div class="l add"><b>+</b><span>Angular 20+</span></div>
+        <div class="file" style="border-top:1px solid var(--line)">framework</div>
+        <div class="l del"><b>-</b><span>Ext JS</span></div>
+        <div class="l add"><b>+</b><span>Angular</span></div>
       </div>
     </div>
   </section>
@@ -317,26 +345,73 @@ footer { padding: 2rem 0 3rem; color: var(--muted); font-size: 0.9rem; }
     <h2>I make deadlines draggable</h2>
     <div class="upgrade">
       <div class="gantt">
-        <p class="hint">Go on, move a deadline. Nobody will know. Arrow keys work too.</p>
-        <div class="g-row"><b>Plan</b><div class="g-track"><div class="g-bar alt" tabindex="0" role="slider" aria-label="Plan start week" data-start="0" data-len="2"><span class="drag-tip" aria-hidden="true">↔ Drag me</span></div></div></div>
-        <div class="g-row"><b>Coffee</b><div class="g-track"><div class="g-bar" tabindex="0" role="slider" aria-label="Coffee start week" data-start="1" data-len="3"></div></div></div>
-        <div class="g-row"><b>Build</b><div class="g-track"><div class="g-bar" tabindex="0" role="slider" aria-label="Build start week" data-start="3" data-len="4"></div></div></div>
-        <div class="g-row"><b>Ship it</b><div class="g-track"><div class="g-bar alt" tabindex="0" role="slider" aria-label="Ship it start week" data-start="7" data-len="1"></div></div></div>
-      </div>
+        <p class="hint">Move Plan or Build and watch the tasks that depend on them follow. Arrow keys work too.</p>
+        <div class="g-row"><b>Plan</b><div class="g-track"><div class="g-bar alt" tabindex="0" role="slider" aria-label="Plan start week" data-id="plan" data-start="0" data-len="2"><span class="drag-tip" aria-hidden="true">↔ Drag me</span></div></div></div>
+        <div class="g-row"><b>Coffee</b><div class="g-track"><div class="g-bar" tabindex="0" role="slider" aria-label="Coffee start week, depends on nothing" data-id="coffee" data-start="1" data-len="3"></div></div></div>
+        <div class="g-row"><b>Build</b><div class="g-track"><div class="g-bar" tabindex="0" role="slider" aria-label="Build start week, depends on Plan" data-id="build" data-after="plan" data-start="2" data-len="4"></div></div></div>
+        <div class="g-row"><b>Ship it</b><div class="g-track"><div class="g-bar alt" tabindex="0" role="slider" aria-label="Ship it start week, depends on Build" data-id="ship" data-after="build" data-start="6" data-len="1"></div></div></div>
+        <svg class="g-links" aria-hidden="true"></svg>
+</div>
       <div>
         <p>Tasks, schedules, due dates: the stuff that keeps teams up at night. I've built a lot of features that help people plan their work and actually know what's due, and when.</p>
-        <p>My favorites are the interactive Gantt charts I built with Bryntum, where people reshuffle a whole timeline with a drag instead of filling out yet another form. The one here is a tiny taste.</p>
+        <p>My favorites are the interactive Gantt charts I built with Bryntum. Tasks are linked by dependencies, so when one slips, everything that depends on it moves too. The schedule is calculated from the data instead of retyped by hand, and people reshuffle a whole timeline with a drag instead of filling out yet another form.</p>
+        <p>The one here is a tiny taste. Push Plan to the right and see what happens to Build and Ship it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="approach">
+    <h2>I design for the data you'll have next year</h2>
+    <p class="intro">My career started with CRM dashboards and KPI reports, where the numbers grow every single day. That taught me to treat data as the heart of a feature, and to plan for growth before it arrives.</p>
+    <div class="upgrade">
+      <div class="principles">
+        <p><b>Data people can act on.</b> From CRM dashboards and KPI reports backed by C# and MySQL APIs, to Gantt timelines where due dates become something you can see and move, I build features that turn records into decisions.</p>
+        <p><b>Scalability.</b> Solutions design work taught me to plan structure before code: how the data is shaped, how it will be queried, and which parts will grow fastest. Document databases like RavenDB let that structure evolve without painful migrations.</p>
+        <p><b>Performance.</b> A report only helps if it opens quickly. I shape queries and indexes around how people actually read the data, and move heavy work out of the request when it can run in the background.</p>
+        <p><b>Reliability.</b> Moving systems from .NET Framework 4 to .NET 6 kept them on a supported, patched platform. And nothing ships unreviewed, including the code Claude writes.</p>
+      </div>
+      <div class="review" aria-label="Three checks every feature has to pass">
+        <div class="file">before I approve a pull request</div>
+        <ul>
+          <li><span class="box" aria-hidden="true">✓</span><div><b>Will it scale?</b><span class="q">Does it still work when the data is ten times bigger?</span></div></li>
+          <li><span class="box" aria-hidden="true">✓</span><div><b>Is it fast?</b><span class="q">Does the screen load quickly with real data, not just test data?</span></div></li>
+          <li><span class="box" aria-hidden="true">✓</span><div><b>Will it recover?</b><span class="q">If something fails, does it fail gracefully and tell us why?</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="ai">
+    <h2>I put AI to work, then review its homework</h2>
+    <p class="intro">At Commit Works, I brought LLMs into our development lifecycle. The trick isn't letting AI write code. It's giving it a clear spec and never letting it merge alone.</p>
+    <div class="upgrade">
+      <div class="flow" aria-label="Spec-driven workflow from spec to review">
+        <div class="file">feature/spec-driven-workflow</div>
+        <ol>
+          <li><code>spec</code><span>What the feature must do, written down first</span></li>
+          <li><code>plan</code><span>How it fits into the existing system</span></li>
+          <li><code>tasks</code><span>Small steps, each easy to review</span></li>
+          <li class="ai"><code>code</code><span>Claude writes the code and bug fixes</span></li>
+          <li class="human"><code>review</code><span>Our team reads every line before it merges</span></li>
+        </ol>
+      </div>
+      <div>
+        <p>I used GitHub Spec Kit as the template for the workflow. Every change starts from a spec, a plan, and a task list before Claude writes anything.</p>
+        <p>Its biggest test so far was converting a legacy Ext JS application to Angular, a full framework rewrite rather than a version bump.</p>
+        <p>Specs remove guesswork, so the code that comes back matches what we meant. Small tasks keep reviews honest, because nobody can skim a change they can read in a few minutes.</p>
+        <p>The result is a team that spends less time on boilerplate and more time on the decisions that shape the product.</p>
+        <!-- TODO (Kyra): add a real result here if you have one, e.g. how much faster features ship, or how many features/bug fixes went through this workflow. -->
       </div>
     </div>
   </section>
 
   <section id="stack">
     <h2>What I build with</h2>
-    <p class="intro">Modern Angular on the front, .NET on the back, and document databases underneath.</p>
+    <p class="intro">Modern Angular on the front, .NET on the back, and both document and relational databases underneath.</p>
     <div class="stack">
       <div class="layer"><h3>Front end</h3><ul><li>Angular<small>Version 20 and up</small></li></ul></div>
       <div class="layer"><h3>Back end</h3><ul><li>C# and ASP.NET<small>.NET Framework and .NET 6, 8, and 9</small></li></ul></div>
-      <div class="layer"><h3>Data</h3><ul><li>RavenDB<small>Document database</small></li><li>Firebase<small>NoSQL database</small></li></ul></div>
+      <div class="layer"><h3>Data</h3><ul><li>RavenDB<small>Document database</small></li><li>Firebase<small>NoSQL database</small></li><li>MySQL<small>Relational, behind CRM reporting</small></li></ul></div>
     </div>
 
     <div class="familiar">
@@ -346,7 +421,7 @@ footer { padding: 2rem 0 3rem; color: var(--muted); font-size: 0.9rem; }
       <div class="fam-row"><b>Back end</b><ul><li>ASP.NET</li><li>.NET Framework</li><li>Laravel</li></ul></div>
       <div class="fam-row"><b>Data</b><ul><li>SQL databases</li><li>RavenDB</li><li>Firebase</li></ul></div>
       <div class="fam-row"><b>Tools</b><ul><li>Git and GitHub</li><li>Docker</li><li>Mocha</li></ul></div>
-      <div class="fam-row"><b>AI</b><ul><li>Claude Haiku 4.5</li><li>GitHub Spec Kit</li></ul></div>
+      <div class="fam-row"><b>AI</b><ul><li>Claude</li><li>GitHub Spec Kit</li></ul></div>
     </div>
   </section>
 
@@ -396,9 +471,10 @@ footer { padding: 2rem 0 3rem; color: var(--muted); font-size: 0.9rem; }
     <p class="intro">A developer who has also sat on the leadership side of the table.</p>
     <div class="grid3">
       <div><div class="dot" style="background:var(--violet)"></div><h3>Full stack delivery</h3><p>Front end, back end, and everything in between, from first commit to production.</p></div>
-      <div><div class="dot" style="background:linear-gradient(90deg,var(--coral) 50%,var(--violet) 50%)"></div><h3>System architecture</h3><p>Solutions design experience that helps me plan systems that hold up as they grow.</p></div>
+      <div><div class="dot" style="background:linear-gradient(90deg,var(--coral) 50%,var(--violet) 50%)"></div><h3>System architecture</h3><p>Solutions design experience that helps me plan systems that stay fast and reliable as their data grows.</p></div>
       <div><div class="dot" style="background:var(--coral)"></div><h3>Team leadership</h3><p>Mentoring developers, keeping projects on track, and giving clear technical guidance.</p></div>
-      <div><div class="dot" style="background:var(--ink)"></div><h3>AI-assisted development</h3><p>I integrated LLMs into our SDLC with a spec-driven workflow: every change starts from a spec, a plan, and a task list before Claude writes any code, and we review everything it produces.</p></div>
+      <div><div class="dot" style="background:var(--violet-soft);border:2px solid var(--violet)"></div><h3>Data-driven features</h3><p>Dashboards, KPI reports, and planning tools that turn raw records into decisions people can act on.</p></div>
+      <div><div class="dot" style="background:var(--ink)"></div><h3>AI-assisted development</h3><p>A spec-driven workflow where Claude writes code from clear specs and our team reviews every line. <a href="#ai">See how it works</a>.</p></div>
     </div>
   </section>
 
@@ -506,7 +582,7 @@ footer { padding: 2rem 0 3rem; color: var(--muted); font-size: 0.9rem; }
   const groups = [
     'section h2', 'section > .intro, .legend',
     '.commit', '.upgrade > div:not(.diff):not(.gantt)', '.diff .l', '.gantt',
-    '.stack .layer', '.fam-row', '.side', '.grid3 > div', '.safe-note, .links'
+    '.stack .layer', '.fam-row', '.principles p', '.review li', '.flow li', '.side', '.grid3 > div', '.safe-note, .links'
   ];
   const targets = [];
   groups.forEach(sel => {
@@ -532,41 +608,103 @@ footer { padding: 2rem 0 3rem; color: var(--muted); font-size: 0.9rem; }
 })();
 
 (function () {
-  const WEEKS = 8;
-  document.querySelectorAll('.g-bar').forEach(bar => {
-    const track = bar.parentElement;
-    const len = +bar.dataset.len;
-    let start = +bar.dataset.start;
-    const place = () => {
-      bar.style.left = (start / WEEKS * 100) + '%';
-      bar.style.width = (len / WEEKS * 100) + '%';
-      bar.setAttribute('aria-valuenow', start + 1);
-      bar.setAttribute('aria-valuemin', 1);
-      bar.setAttribute('aria-valuemax', WEEKS - len + 1);
-    };
-    const clamp = v => Math.max(0, Math.min(WEEKS - len, v));
+  const WEEKS = 10;
+  const gantt = document.querySelector('.gantt');
+  if (!gantt) return;
+  const svg = gantt.querySelector('.g-links');
+  const NS = 'http://www.w3.org/2000/svg';
+  const tasks = {};
+  gantt.querySelectorAll('.g-bar').forEach(bar => {
+    tasks[bar.dataset.id] = { bar, track: bar.parentElement, id: bar.dataset.id,
+      start: +bar.dataset.start, len: +bar.dataset.len, after: bar.dataset.after || null };
+  });
+  const list = Object.values(tasks);
+  const successors = t => list.filter(o => o.after === t.id);
+  // Longest chain of work that must fit after this task ends
+  const tail = t => successors(t).reduce((m, s) => Math.max(m, s.len + tail(s)), 0);
+  const minStart = t => t.after ? tasks[t.after].start + tasks[t.after].len : 0;
+  const maxStart = t => WEEKS - t.len - tail(t);
+
+  function push(t) {
+    // Finish-to-start: a successor can never begin before its predecessor ends
+    successors(t).forEach(s => {
+      const earliest = t.start + t.len;
+      if (s.start < earliest) { s.start = earliest; }
+      push(s);
+    });
+  }
+  function place() {
+    list.forEach(t => {
+      t.bar.style.left = (t.start / WEEKS * 100) + '%';
+      t.bar.style.width = (t.len / WEEKS * 100) + '%';
+      t.bar.setAttribute('aria-valuemin', minStart(t) + 1);
+      t.bar.setAttribute('aria-valuemax', maxStart(t) + 1);
+      t.bar.setAttribute('aria-valuenow', t.start + 1);
+    });
+    drawLinks();
+  }
+  function drawLinks() {
+    const g = gantt.getBoundingClientRect();
+    svg.innerHTML = '';
+    list.filter(t => t.after).forEach(t => {
+      const p = tasks[t.after];
+      const pr = p.track.getBoundingClientRect(), tr = t.track.getBoundingClientRect();
+      const x1 = pr.left - g.left + (p.start + p.len) / WEEKS * pr.width;
+      const y1 = pr.top - g.top + pr.height / 2;
+      const x2 = tr.left - g.left + t.start / WEEKS * tr.width;
+      const y2 = tr.top - g.top + tr.height / 2;
+      const path = document.createElementNS(NS, 'path');
+      let d;
+      if (x2 - x1 >= 18) {
+        d = `M ${x1} ${y1} H ${x1 + 9} V ${y2} H ${x2 - 6}`;
+      } else {
+        // Tasks touch: step right, drop to just above the next row, come back, then into the bar
+        const yGap = y2 - tr.height / 2 - 5;
+        d = `M ${x1} ${y1} H ${x1 + 9} V ${yGap} H ${x2 - 12} V ${y2} H ${x2 - 6}`;
+      }
+      path.setAttribute('d', d);
+      svg.appendChild(path);
+      const tip = document.createElementNS(NS, 'path');
+      tip.setAttribute('class', 'head-tip');
+      tip.setAttribute('d', `M ${x2} ${y2} l -7 -4.5 v 9 z`);
+      svg.appendChild(tip);
+    });
+  }
+  function moveTo(t, v) {
+    t.start = Math.max(minStart(t), Math.min(maxStart(t), v));
+    push(t);
     place();
-    const hideTip = () => { const tip = document.querySelector('.drag-tip'); if (tip) tip.classList.add('gone'); };
+  }
+  // Hide the "Drag me" tip while someone is moving a bar, then bring it back when they stop
+  const tip = document.querySelector('.drag-tip');
+  let tipTimer;
+  const hideTip = () => { clearTimeout(tipTimer); if (tip) tip.classList.add('gone'); };
+  const showTipSoon = () => { clearTimeout(tipTimer); tipTimer = setTimeout(() => { if (tip) tip.classList.remove('gone'); }, 1500); };
+  list.forEach(t => {
+    const bar = t.bar;
     bar.addEventListener('pointerdown', hideTip);
     bar.addEventListener('keydown', hideTip);
+    bar.addEventListener('pointerup', showTipSoon);
+    bar.addEventListener('pointercancel', showTipSoon);
+    bar.addEventListener('keyup', showTipSoon);
+    bar.addEventListener('blur', showTipSoon);
     bar.addEventListener('pointerdown', e => {
       bar.setPointerCapture(e.pointerId);
-      const rect = track.getBoundingClientRect();
+      const rect = t.track.getBoundingClientRect();
       const offset = e.clientX - bar.getBoundingClientRect().left;
-      const move = ev => {
-        const x = ev.clientX - rect.left - offset;
-        start = clamp(Math.round(x / rect.width * WEEKS));
-        place();
-      };
+      const move = ev => moveTo(t, Math.round((ev.clientX - rect.left - offset) / rect.width * WEEKS));
       const up = () => { bar.removeEventListener('pointermove', move); bar.removeEventListener('pointerup', up); };
       bar.addEventListener('pointermove', move);
       bar.addEventListener('pointerup', up);
     });
     bar.addEventListener('keydown', e => {
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') { start = clamp(start - 1); place(); e.preventDefault(); }
-      if (e.key === 'ArrowRight' || e.key === 'ArrowUp') { start = clamp(start + 1); place(); e.preventDefault(); }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') { moveTo(t, t.start - 1); e.preventDefault(); }
+      if (e.key === 'ArrowRight' || e.key === 'ArrowUp') { moveTo(t, t.start + 1); e.preventDefault(); }
     });
   });
+  place();
+  let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(drawLinks, 100); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawLinks);
 })();
 </script>
 </body>
