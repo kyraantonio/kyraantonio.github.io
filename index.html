@@ -214,6 +214,7 @@ footer { padding: 2rem 0 3rem; color: var(--muted); font-size: 0.9rem; }
 .review .box { width: 1.3rem; height: 1.3rem; border-radius: 5px; background: var(--violet); color: #fff; display: grid; place-items: center; font-size: 0.85rem; font-weight: 700; margin-top: 0.2rem; }
 .review li:nth-child(2) .box { background: var(--coral); }
 .review li:nth-child(3) .box { background: var(--ink); color: var(--bg); }
+.review li:nth-child(4) .box { background: var(--violet-soft); color: var(--violet); border: 2px solid var(--violet); }
 .review b { font-family: var(--display); font-weight: 600; font-size: 1.15rem; display: block; }
 .review span.q { color: var(--muted); font-size: 0.95rem; }
 .flow li { display: grid; grid-template-columns: 4.5rem 1fr; gap: 1rem; padding: 0.85rem 1.1rem; border-top: 1px solid var(--line); align-items: baseline; }
@@ -368,14 +369,16 @@ footer { padding: 2rem 0 3rem; color: var(--muted); font-size: 0.9rem; }
         <p><b>Data people can act on.</b> From CRM dashboards and KPI reports backed by C# and MySQL APIs, to Gantt timelines where due dates become something you can see and move, I build features that turn records into decisions.</p>
         <p><b>Scalability.</b> Solutions design work taught me to plan structure before code: how the data is shaped, how it will be queried, and which parts will grow fastest. Document databases like RavenDB let that structure evolve without painful migrations.</p>
         <p><b>Performance.</b> A report only helps if it opens quickly. I shape queries and indexes around how people actually read the data, and move heavy work out of the request when it can run in the background.</p>
-        <p><b>Reliability.</b> Moving systems from .NET Framework 4 to .NET 6 kept them on a supported, patched platform. And nothing ships unreviewed, including the code Claude writes.</p>
+        <p><b>Reliability.</b> I use Serilog for structured logging, so when something breaks, the logs say what happened and where. Grafana and Datadog dashboards let us watch systems in production and spot problems before users report them. Moving systems from .NET Framework 4 to .NET 6 kept them on a supported, patched platform.</p>
+        <p><b>Security.</b> At Commit Works, I work within ISO/IEC 27001 information security practices, so protecting data and access is part of how features are built, not a step at the end. And nothing ships unreviewed, including the code Claude writes.</p>
       </div>
-      <div class="review" aria-label="Three checks every feature has to pass">
+      <div class="review" aria-label="Four checks every feature has to pass">
         <div class="file">before I approve a pull request</div>
         <ul>
           <li><span class="box" aria-hidden="true">✓</span><div><b>Will it scale?</b><span class="q">Does it still work when the data is ten times bigger?</span></div></li>
           <li><span class="box" aria-hidden="true">✓</span><div><b>Is it fast?</b><span class="q">Does the screen load quickly with real data, not just test data?</span></div></li>
-          <li><span class="box" aria-hidden="true">✓</span><div><b>Will it recover?</b><span class="q">If something fails, does it fail gracefully and tell us why?</span></div></li>
+          <li><span class="box" aria-hidden="true">✓</span><div><b>Will it recover?</b><span class="q">If something fails, do the logs and dashboards tell us why?</span></div></li>
+          <li><span class="box" aria-hidden="true">✓</span><div><b>Is it secure?</b><span class="q">Does it follow our ISO 27001 practices for data and access?</span></div></li>
         </ul>
       </div>
     </div>
@@ -421,6 +424,8 @@ footer { padding: 2rem 0 3rem; color: var(--muted); font-size: 0.9rem; }
       <div class="fam-row"><b>Back end</b><ul><li>ASP.NET</li><li>.NET Framework</li><li>Laravel</li></ul></div>
       <div class="fam-row"><b>Data</b><ul><li>SQL databases</li><li>RavenDB</li><li>Firebase</li></ul></div>
       <div class="fam-row"><b>Tools</b><ul><li>Git and GitHub</li><li>Docker</li><li>Mocha</li></ul></div>
+      <div class="fam-row"><b>Monitoring</b><ul><li>Grafana</li><li>Datadog</li><li>Serilog</li></ul></div>
+      <div class="fam-row"><b>Standards</b><ul><li>ISO/IEC 27001 practices</li></ul></div>
       <div class="fam-row"><b>AI</b><ul><li>Claude</li><li>GitHub Spec Kit</li></ul></div>
     </div>
   </section>
